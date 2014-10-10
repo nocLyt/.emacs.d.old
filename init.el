@@ -14,13 +14,13 @@
 (elpy-enable)
 
 ;; 配置 YASnippet
-(require 'yasnippet)
-(yas-global-mode 1)
-  
+; (require 'yasnippet)
+; (yas-global-mode 1)
+
 ;; 配置 Auto-complete
-(require 'popup)
-(require 'auto-complete-config)
-(ac-config-default)
+; (require 'popup)
+; (require 'auto-complete-config)
+; (ac-config-default)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -33,11 +33,9 @@
 (color-theme-initialize)
 
 ; 一个简单的黄底的主题
-; (add-to-list 'load-path "C:\\Users\\tianyi.lyt\\AppData\\Roaming\\.emacs.d\\elpa\\color-theme-6.6.0\\themes")
-; (require 'color-theme-library)
 (color-theme-aalto-light)
 
-;; 设置高亮 
+;; 设置高亮
 ; (require 'highlight-indentation)
 ; (set-face-background 'highlight-indentation-face "#e3e3d3")
 
@@ -118,10 +116,11 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (setq inhibit-startup-message t)
 (setq inhibit-startup-echo-area-message t)
 
-;; 设置utf-8编码
-(prefer-coding-system 'utf-8)
-(setq coding-system-for-read 'utf-8)
-(setq coding-system-for-write 'utf-8)
+
+;; 设置utf-8编码。 应该设置：在非Windows下，设置utf-8编码
+; (prefer-coding-system 'utf-8)
+; (setq coding-system-for-read 'utf-8)
+; (setq coding-system-for-write 'utf-8)
 
 ;; 鼠标滚轮控制字体大小
 (global-set-key (kbd "<C-wheel-up>") 'text-scale-increase)
@@ -141,8 +140,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (setq column-number-mode t)
 (setq line-number-mode t)
 
-;; 设置每列最大范围，有用吗？。。
-(setq default-fill-column 100)
+;; 每行的列宽，有用吗？。。
+(setq default-fill-column 80)
 
 ;; 显示括号匹配
 (show-paren-mode t)
@@ -171,7 +170,8 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 (global-set-key [f4] 'kill-this-buffer)
 ;; F5 打开一个终端. 可以绑定: eshell, shell, terminal-emulator
 (global-set-key [f5] 'shell)
- 
+
+
 ;; 多窗口切换-> C-o
 (global-set-key [(control o)] 'other-window)
 
@@ -202,12 +202,14 @@ when it inserts comment at the end of the line. "
 
 
 ;; 无选中时, M-w复制当前整行; M-k从光标复制到行尾的
+;; !!! 注意 M-w 不能用 !!
 ;; Smart copy, if no region active, it simply copy the current whole line
 ;; from http://zhuoqiang.me/torture-emacs.html
 ;; PS : 可以根据需求添加删除配置的 mode
+;; Smart copy, if no region active, it simply copy the current whole line
 (defadvice kill-line (before check-position activate)
   (if (member major-mode
-              '(emacs-lisp-mode scheme-mode lisp-mode
+              '(emacs-lisp-mode scheme-mode lisp-mode python-mode
                                 c-mode c++-mode objc-mode js-mode
                                 latex-mode plain-tex-mode))
       (if (and (eolp) (not (bolp)))
@@ -237,6 +239,35 @@ when it inserts comment at the end of the line. "
                   (line-end-position))
   ;; (line-beginning-position (+ 1 arg)))
   (message "%d line%s copied" arg (if (= 1 arg) "" "s")))
+
 (global-set-key (kbd "M-k") 'qiang-copy-line)
+
+
+;; 拷贝代码自动格式化
+;; 你可以加入或删除一些 mode 名称来定制上面的配置。
+(dolist (command '(yank yank-pop))
+  (eval
+   `(defadvice, command (after indent-region activate)
+      (and (not current-prefix-arg)
+           (member major-mode
+                   '(emacs-lisp-mode lisp-mode clojure-mode scheme-mode
+                                     haskell-mode ruby-mode rspec-mode
+                                     python-mode c-mode c++-mode objc-mode
+                                     latex-mode js-mode plain-tex-mode))
+           (let ((mark-even-if-inactive transient-mark-mode))
+             (indent-region (region-beginning) (region-end) nil))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(python-indent-guess-indent-offset t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
