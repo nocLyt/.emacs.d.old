@@ -11,16 +11,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (package-initialize)
-(elpy-enable)
 
-;; 配置 YASnippet
+(elpy-enable)
+; (语法提示设置)默认是rope,改成jedi更好用了. 
+(setq elpy-rpc-backend "jedi") 
+
+; ; 配置 YASnippet
 ; (require 'yasnippet)
 ; (yas-global-mode 1)
 
-;; 配置 Auto-complete
-; (require 'popup)
-; (require 'auto-complete-config)
-; (ac-config-default)
+; ; 配置 Auto-complete
+(require 'auto-complete-config)
+(ac-config-default)
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -31,6 +33,8 @@
 (add-to-list 'load-path "C:\\Users\\tianyi.lyt\\AppData\\Roaming\\.emacs.d\\elpa\\color-theme-6.6.0")
 (require 'color-theme)
 (color-theme-initialize)
+
+
 
 ; 一个简单的黄底的主题
 (color-theme-aalto-light)
