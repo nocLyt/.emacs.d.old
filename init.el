@@ -112,6 +112,7 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
  '("Consolas" "Monaco" "DejaVu Sans Mono" "Monospace" "Courier New") ":pixelsize=18"
  '("Microsoft Yahei" "文泉驿等宽微米黑" "黑体" "新宋体" "宋体"))
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;; 界面设置 ;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -158,6 +159,13 @@ If set/leave chinese-font-size to nil, it will follow english-font-size"
 
 ;; 支持中键粘贴
 (setq mouse-yank-at-point t)
+
+;; 设置启动窗口大小
+(setq default-frame-alist
+  '((height . 30) (width . 80)))
+
+;; 设置窗口启动位置
+(set-frame-position (selected-frame) 500 50)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;; 键位绑定 ;;;;;;;;;;;;;;;;;;;;
